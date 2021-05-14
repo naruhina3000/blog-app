@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :set_article, only: [:show, :edit, :update, :destroy, :delete_photo]
 
   # GET /articles
   def index
@@ -45,6 +45,12 @@ class ArticlesController < ApplicationController
     redirect_to articles_url, notice: 'Article was successfully destroyed.'
   end
 
+  def delete_photo
+    @article.photo.purge
+    redirect_to @article
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_article
@@ -53,6 +59,6 @@ class ArticlesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def article_params
-      params.require(:article).permit(:title, :body)
+      params.require(:article).permit(:title, :body, :photo)
     end
 end
